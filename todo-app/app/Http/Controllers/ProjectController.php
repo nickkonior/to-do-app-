@@ -26,7 +26,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('projects.create');
     }
 
     /**
@@ -37,7 +37,14 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        Auth::user()->projects()->create($request->all());
+
+        return redirect()->route('projects.index')->with('success', 'Project created successfully.');
     }
 
     /**
@@ -48,7 +55,8 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->authorize('viewe', $project);
+        return view('projects.show', compact('project'));
     }
 
     /**
