@@ -14,14 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('projects', ProjectController::class);
+    Route::resource('projects.tasks', TaskController::class)->shallow();
 });
 
 
+
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/dashboard');
 });
 
 Route::get('/dashboard', function () {
